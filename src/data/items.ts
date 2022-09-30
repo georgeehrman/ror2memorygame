@@ -7,32 +7,7 @@ const constant = {
   Category,
 };
 
-// import stickyBomb from 'assets/images/Sticky_Bomb.webp';
-// import triTipDagger from 'assets/images/Tri-Tip_Dagger.webp';
-// import tougherTimes from 'assets/images/Tougher_Times.webp';
-// import armorPiercingRounds from 'assets/images/Armor-Piercing_Rounds.webp'
-
 const items = {
-    // {
-    //     id: 0,
-    //     name: "Sticky Bomb",
-    //     image: stickyBomb
-    // },
-    // {
-    //     id: 1,
-    //     name: "Tri-Tip Dagger",
-    //     image: triTipDagger,
-    // },
-    // {
-    //     id: 2,
-    //     name: "Tougher Times",
-    //     image: tougherTimes,
-    // }
-    // {
-    //     id: 0,
-    //     name: "Armor-Piercing Rounds",
-    //     image: armorPiercingRounds,
-    // }
     0: {
     wikiLink: "https://riskofrain2.gamepedia.com/Soldier%27s_Syringe",
     name: "Soldier's Syringe",
