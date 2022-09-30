@@ -1,9 +1,7 @@
-import items from './Items';
 import React, {useState, useEffect} from 'react';
 import styles from './Main.module.css';
 import ding from 'assets/sounds/Ding.mp3';
-import getRandomInt from 'utilities/getRandomInt';
-import Timer from 'Timer';
+import getRandomItem from 'utilities/getRandomItem';
 
 // Pick random item to display: Done
 // Show item on screen for 5 seconds
@@ -12,45 +10,44 @@ import Timer from 'Timer';
 // clear input after successful guess
 
 export default function Main() {
-    const [currentItemId, setCurrentItemId] = useState(getRandomInt(items.length));
+    const [currentItem, setCurrentItem] = useState(getRandomItem())
     const [value, setValue] = useState('');
     const [isInputCorrect, setisInputCorrect] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(10);
+    const [seconds, setSeconds] = useState(10);
 
     const audio = new Audio(ding);
 
-    const renderItems = () => 
-        items.map((item) => 
-            <div>
-                {item.name}
-                <img src={require('assets/' + item.image).default} />
-            </div>
-        );
+    // Timer 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSeconds(seconds => seconds - 1)
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [])
+
+    useEffect(() => {
+        if (seconds <= 0) {
+            setCurrentItem(getRandomItem)
+            setSeconds(10)
+        } 
+    }, [seconds])
 
     const renderItem = () => {
-        console.log('render item');
-        const item = items[currentItemId];
         return (
             <div>
-                {/* {item.name} */}
-                <img src={item.image} />
+                <img src={currentItem.image} />
             </div>
         )
     }
-
-    useEffect(() => {
-        // renderItem();
-        // setInterval(() => renderItem(), 1)
-    }, [])
 
     // Input validation
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
         const value = event.target.value.toLowerCase();
         setValue(value)
-        if (value === items[currentItemId].name.toLowerCase()) {
+        if (value === currentItem.name.toLowerCase()) {
             setisInputCorrect(true);
-            setCurrentItemId(getRandomInt(items.length))
+            setCurrentItem(getRandomItem)
             setValue('');
             audio.play();
         } else {
@@ -58,24 +55,10 @@ export default function Main() {
         }
     }
 
-    const renderTimer = () => {
-        const inputTimer = setInterval(() => {
-            if (timeLeft <= 0) {
-                clearInterval(inputTimer);
-            }
-            // console.log('test')
-            // console.log(timeLeft)
-            // setTimeLeft(timeLeft - 1)
-        }, 1000)
-        return (
-           <h1>{timeLeft}</h1>
-        )
-    }
 
     return (
         <div>
-            {/* {renderTimer()} */}
-            <Timer />
+            {seconds}
             {renderItem()}
             <input value={value} onChange={handleChange} />
             {isInputCorrect && 
